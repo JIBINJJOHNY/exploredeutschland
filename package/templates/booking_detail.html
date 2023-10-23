@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+
+<div class="booking-container">
+    <div class="left-section">
+        {% if alert_message %}
+      <div class="alert alert-success" role="alert">
+        {{ alert_message }}
+         </div>
+         {% endif %}
+        <h1>Booking Summary</h1>
+        <p><strong>User:</strong> {{ booking.user.get_full_name}}</p>
+        <p><strong>Booking Date:</strong> {{ booking.date }}</p>
+        <p><strong>Number of Guests:</strong> {{ booking.no_of_guests }}</p>
+        <p><strong>Package:</strong> {{ booking.package }}</p>
+        <p><strong>Email:</strong> {{ booking.contact_email }}</p>
+        <p><strong>Contact Phone:</strong> {{ booking.contact_phone }}</p>
+        <p><strong>Special Requests:</strong> {{ booking.special_requests }}</p>
+        <p><strong>Payment Method:</strong> Cash</p>
+        <p><strong>Payment Amount:</strong> €{{ booking.payment_amount }}</p>
+    </div>
+    <form method="post" action="{% url 'book_now' booking.id %}" class="center-form">
+        {% csrf_token %}
+        <input type="hidden" name="user_email" value="{{ booking.contact_email }}">
+        <button class="btn btn-primary" type="submit">Book Now</button>
+    </form>
+</div>
+
+<style>
+    .booking-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .left-section {
+        margin-right: 20px;
+    }
+
+    .center-form {
+        text-align: center;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Our Packages</title>
+</head>
+<body>
+    <h1>Our Packages</h1>
+    <h2>{{ state.name }} Packages</h2>
+    <ul>
+        {% for package in packages %}
+        <li>
+            <h3>{{ package.get_package_type_display }} Package</h3>
+            <p>Price: ${{ package.price }}</p>
+            <p>Places Limit: {{ package.places_limit }}</p>
+            <p>Places:</p>
+            <ul>
+                {% for place in package.places.all %}
+                <li>{{ place.name }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+{% endblock %}

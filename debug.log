@@ -1,0 +1,16 @@
+Watching for file changes with StatReloader
+Starting new HTTPS connection (1): res.cloudinary.com:443
+https://res.cloudinary.com:443 "GET /dny2nnyor/raw/upload/v1/static/staticfiles.json HTTP/1.1" 404 0
+/Users/jibinjainjohny/Documents/exploredeutschland/package/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/jibinjainjohny/Documents/exploredeutschland/package/views.py changed, reloading.
+Watching for file changes with StatReloader
+Starting new HTTPS connection (1): res.cloudinary.com:443
+https://res.cloudinary.com:443 "GET /dny2nnyor/raw/upload/v1/static/staticfiles.json HTTP/1.1" 404 0
+/Users/jibinjainjohny/Documents/exploredeutschland/travelsite/settings.py changed, reloading.
+Watching for file changes with StatReloader
+Starting new HTTPS connection (1): res.cloudinary.com:443
+https://res.cloudinary.com:443 "GET /dny2nnyor/raw/upload/v1/static/staticfiles.json HTTP/1.1" 404 0
+/Users/jibinjainjohny/Documents/exploredeutschland/travelsite/settings.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/jibinjainjohny/Documents/exploredeutschland/travelsite/settings.py changed, reloading.

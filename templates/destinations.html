@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center">
+    <h1>Discover the Diverse Beauty of Germany's States</h1>
+</div>
+<div class="row">
+    {% for destination in destinations %}
+    <div class="col-md-3 mb-4">
+        <div class="card" style="width: 100%;">
+            <a href="{% url 'destination_detail' destination_id=destination.id %}">
+                {% if destination.images.all %}
+                <img src="{{ destination.images.first.image_url }}" class="card-img-top" alt="{{ destination.images.first.alt_text }}" style="height: 200px; width: 100%; object-fit: cover;">
+                {% endif %}
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a href="{% url 'destination_detail' destination_id=destination.id %}">{{ destination.name }}</a>
+                </h5>
+                <p class="card-text">{{ destination.location }}</p>
+            </div>
+        </div>
+    </div>
+    {% if forloop.counter|divisibleby:4 %}
+</div>
+<div class="row">
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

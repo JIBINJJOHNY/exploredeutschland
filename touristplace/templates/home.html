@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!-- Your existing content goes here -->
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'carousel1.webp' %}" class="d-block w-100" alt="Image 1">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'carousel2.webp' %}" class="d-block w-100" alt="Image 2">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'carousel3.webp' %}" class="d-block w-100" alt="Image 3">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+<h1 class="text-center" id="about">About Us</h1>
+<div class="about-container col-md-8">
+
+  <div class="about-content">
+    <p> Welcome to Explore Deutschland, your premier source for unlocking the treasures of Germany. Our mission is to
+      immerse you in the breathtaking blend of history, culture, and picturesque landscapes that define this
+      incredible nation. With an unshakable passion for sharing the stories of Germany, we invite you to explore its
+      hidden gems, vibrant cities, charming medieval towns, and the majestic landscapes that leave travelers
+      awe-inspired. At Explore Deutschland, we believe that your journey through Germany is more than just a trip;
+      it's an opportunity to create cherished memories that will last a lifetime.
+
+      "Our devoted team of travel experts stands ready to be your trusted guides, offering invaluable advice, curated
+      recommendations, and insightful tips to make your adventure in Germany truly exceptional. With an intimate
+      knowledge of Germany's diverse regions, we'll lead you to experiences that resonate with your interests, whether
+      you're drawn to history, art, cuisine, or natural beauty. We understand that Germany is a destination like no
+      other, and we're here to ensure that your exploration of this incredible country becomes an unforgettable
+      odyssey. Join us at Explore Deutschland and embark on a journey that's as unique as you are.</p>
+  </div>
+  <!-- Adjusted flag image -->
+  <div class="flag-image">
+    <img src="{% static 'map-flag.svg' %}" alt="German map cover with the colors of the German flag" class="small-flag">
+  </div>
+</div>
+<div class="states-container">
+  <h1 id="states" class="text-center mt-4">Discover the Diverse Beauty of Germany's States</h1>
+  <div class="container">
+    <div class="row">
+      {% for state in states %}
+      <div class="col-md-4">
+        <a href="{% url 'state_detail' state.id %}" class="card-link">
+          <div class="card mb-4">
+            <img src="{{ state.image.url }}" class="card-img-top" alt="{{ state.alt }}">
+            <div class="card-body">
+              <h5 class="card-title text-center">{{ state.name }}</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="text-center mt-4">
+  <h1 id="packages">Our Packages</h1>
+  <p class="small">Explore our packages in different states below:</p>
+</div>
+
+<!-- Center the state list with some spacing -->
+<div class="text-center mt-4">
+  <div id="state-list">
+    {% for state in states %}
+    <a href="{% url 'package-detail' state.id %}" class="btn btn-info">{{ state.name }}</a>
+    {% endfor %}
+  </div>
+</div>
+</div>
+</div>
+
+<!-- Continue with the rest of your content -->
+
+
+<style>
+  .card-link {
+    text-decoration: none;
+    /* Remove underline */
+  }
+
+  .states-container {
+    margin-top: 20px;
+  }
+
+  .packages-container {
+    margin-top: 20px;
+
+  }
+
+  #state-list {
+    margin-bottom: 50px;
+  }
+
+
+  .about-container {
+    display: flex;
+    flex-direction: row-reverse;
+    /* Display side by side */
+    text-align: justify;
+    padding: 20px;
+    /* Add padding around the text */
+    margin-left: 300px;
+    /* Add margin to the left side */
+  }
+
+  .about-content {
+    flex: 1;
+    padding-left: 30px;
+    /* Add padding to separate content and image */
+  }
+
+  .flag-image {
+    max-width: 200px;
+    /* Adjust the maximum width as needed */
+    height: auto;
+    /* Maintain the aspect ratio */
+  }
+
+  .small-flag {
+    max-width: 100%;
+    /* Make sure the image doesn't exceed its container */
+    height: auto;
+    /* Maintain the aspect ratio */
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add a Review for {{ tourist_place.name }}</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div>
+    <label for="rating">Rating:</label>
+    <div class="rating">
+      <input type="radio" id="star5" name="rating" value="5" /><label for="star5" class="full"></label>
+      <input type="radio" id="star4" name="rating" value="4" /><label for="star4" class="full"></label>
+      <input type="radio" id="star3" name="rating" value="3" /><label for="star3" class="full"></label>
+      <input type="radio" id="star2" name="rating" value="2" /><label for="star2" class="full"></label>
+      <input type="radio" id="star1" name="rating" value="1" /><label for="star1" class="full" title="Awful"></label>
+    </div>
+  </div>
+  <div>
+    <label for="comment">Your Review:</label>
+    {{ form.comment }}
+  </div>
+  <button type="submit">Submit Review</button>
+</form>
+</div>
+
+<style>
+  @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.css);
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  /* Styling star rating */
+  .rating {
+    border: none;
+    float: left;
+  }
+
+  .rating>input {
+    display: none;
+  }
+
+  .rating>label:before {
+    content: '\f005';
+    font-family: FontAwesome;
+    margin: 5px;
+    font-size: 1.5rem;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .rating>.half:before {
+    content: '\f089';
+    position: absolute;
+    cursor: pointer;
+  }
+
+  .rating>label {
+    color: #ddd;
+    float: right;
+    cursor: pointer;
+  }
+
+  .rating>input:checked~label,
+  .rating:not(:checked)>label:hover,
+  .rating:not(:checked)>label:hover~label {
+    color: #d0a91b;
+  }
+
+  .rating>input:checked+label:hover,
+  .rating>input:checked~label:hover,
+  .rating>label:hover~input:checked~label,
+  .rating>input:checked~label:hover~label {
+    color: #d0a91b;
+  }
+</style>
+
+{% endblock %}

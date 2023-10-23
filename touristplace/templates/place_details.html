@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<style>
+    .background-image {
+        background-image: url("{{ place.images.first.image.url }}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .description-box {
+        background: rgba(255, 255, 255, 0.7);
+        /* White with 70% opacity */
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .heading {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    /* Additional styling for the image gallery */
+    .image-gallery {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.7);
+        /* White with 70% opacity */
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .image-gallery img {
+        width: 100px;
+        height: auto;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .image-gallery img:hover {
+        border: 2px solid #007BFF;
+        /* Highlight on hover */
+        border-radius: 5px;
+    }
+
+    .modal-body img {
+        max-width: 100%;
+        /* Set the maximum width to 100% of its container */
+        height: auto;
+        /* Maintain the aspect ratio */
+    }
+
+    .review-item {
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+        /* Add spacing between individual reviews */
+        text-align: center;
+        /* Center the content within each review */
+    }
+
+    .review-content {
+        text-align: left;
+        /* Left-align the text content within each review */
+    }
+</style>
+
+<div class="background-image">
+    <div class="heading">
+        <h1>{{ place.name }}</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="description-box">
+                    <!-- Description and Google Map -->
+                    <p>{{ place.description }}</p>
+                    <!-- Add your Google Map here with a location pin -->
+                    <iframe width="100%" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                        src="{{ place.google_map_src }}"></iframe>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+                <!-- Reviews -->
+                <h2 class="mb-4">Reviews</h2>
+                <a href="{% url 'add_review' place.id %}" class="btn btn-primary">Add a Review</a>
+                <ul class="list-group reviews-list">
+                    {% for review in reviews %}
+                    <li class="review-item">
+                        <div class="review-content">
+                            <strong>{{ review.user.first_name }}</strong> <br>
+                            <p class="created-at"><small>Created At: {{ review.created_at }}</small></p>
+                            <div class="rating">
+                                {% for i in "12345" %}
+                                <label for="star{{ i }}">
+                                    <i class="fas fa-star {% if i|add:'0' <= review.rating %}rated{% endif %}"></i>
+                                </label>
+                                {% endfor %}
+                            </div>
+
+                            <div class="comment">
+                                <p>{{ review.comment }}</p>
+                            </div>
+                        </div>
+                    </li>
+                    {% empty %}
+                    <li>No reviews available.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Image Gallery -->
+<!-- Add this code to your template -->
+<div class="image-gallery">
+    <h2>Image Gallery</h2>
+    <ul class="list-unstyled">
+        {% for image in place.images.all %}
+        <li class="list-inline-item">
+            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="thumbnail-image"
+                data-image-url="{% url 'get_large_image' image.id %}">
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Bootstrap Modal for Large Images -->
+<div class="modal fade" id="largeImageModal" tabindex="-1" role="dialog" aria-labelledby="largeImageModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <!-- Large image content will be loaded here using AJAX -->
+                <img src="" alt="Large Image" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //JavaScript for handling the clicks and making the Ajax request
+    document.querySelectorAll('.thumbnail-image').forEach((thumbnail) => {
+        thumbnail.addEventListener('click', function () {
+            // Get the data-image-url attribute (URL to fetch the large image)
+            const imageUrl = this.getAttribute('data-image-url');
+
+            // Make an Ajax request to get the large image
+            fetch(imageUrl)
+                .then(response => response.json()) // Parse the response as JSON
+                .then(data => {
+                    const largeImageUrl = data.image_url; // Extract the URL from the response
+                    // Display the large image in the Bootstrap modal
+                    $('#largeImageModal .modal-body').html(
+                        `<img src="${largeImageUrl}" alt="Large Image">`);
+                    $('#largeImageModal').modal('show');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+</script>
+{% endblock %}

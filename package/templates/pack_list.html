@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Our Packages</h1>
+  <div id="state-list">
+    {% for state in states %}
+      <a href="{% url 'package-detail' state.id %}" class="btn btn-info">{{ state.name }}</a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

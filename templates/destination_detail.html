@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ destination.name }}</h1>
+<p>{{ destination.description }}</p>
+{% if destination.images.all %}
+<h2>Images</h2>
+<ul>
+    {% for image in destination.images.all %}
+    <li><img src="{{ image.image_url }}" alt="{{ image.alt_text }}" width="400"></li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

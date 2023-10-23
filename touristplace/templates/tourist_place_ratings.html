@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<h2>Reviews for {{ tourist_place.name }}</h2>
+<ul class="reviews-list">
+  {% for review in reviews %}
+  <li class="review-item">
+    <strong>{{ review.user.first_name }}</strong> <br>
+    <p class="created-at"><small>Created At: {{ review.created_at }}</small></p>
+    <div class="rating">
+      <span class="rating-value">{{ review.rating }}</span>
+      <i class="fas fa-star {% if review.rating >= 1 %}rated{% endif %}"></i>
+      <i class="fas fa-star {% if review.rating >= 2 %}rated{% endif %}"></i>
+      <i class="fas fa-star {% if review.rating >= 3 %}rated{% endif %}"></i>
+      <i class="fas fa-star {% if review.rating >= 4 %}rated{% endif %}"></i>
+      <i class="fas fa-star {% if review.rating >= 5 %}rated{% endif %}"></i>
+    </div>
+    <p> {{ review.comment }}</p>
+
+    {% if current_user == review.user %}
+    <a href="{% url 'edit_review' review.id %}">Edit</a>
+    <a href="{% url 'delete_review' review.id %}">Delete</a>
+    {% endif %}
+  </li>
+  {% empty %}
+  <li>No reviews available.</li>
+  {% endfor %}
+</ul>
+
+<style>
+  .reviews-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .review-item {
+    margin-bottom: 20px;
+  }
+
+  .rating .fas.fa-star {
+    font-size: 24px;
+    color: #dcdcd9;
+  }
+
+  .rating .rated {
+    color: #FFD700;
+  }
+
+  .rating-value {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+</style>
+{% endblock %}

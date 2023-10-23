@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2>Create a New Booking</h2>
+        <form method="post" class="form">
+            {% csrf_token %}
+            <div class="form-field">
+                {{ form.user }}
+            </div>
+            <div class="form-field">
+                {{ form.date.label_tag }} {{ form.date }}
+            </div>
+            <div class="form-field">
+                {{ form.no_of_guests.label_tag }} {{ form.no_of_guests }}
+            </div>
+            <div class="form-field">
+                {{ form.package.label_tag }} {{ form.package }}
+            </div>
+            <div class="form-field">
+                {{ form.payment_method.label_tag }} {{ form.payment_method }}
+            </div>
+            <div class="form-field">
+                {{ form.contact_email.label_tag }} {{ form.contact_email }}
+            </div>
+            <div class="form-field">
+                {{ form.contact_phone.label_tag }} {{ form.contact_phone }}
+            </div>
+            <div class="form-field textarea-field">
+                {{ form.special_requests.label_tag }}
+                <div class="textarea-container">
+                    {{ form.special_requests }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create Booking</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const noOfGuestsField = document.querySelector("#id_no_of_guests");
+            const maxGuests = 6;
+
+            noOfGuestsField.addEventListener("input", function() {
+                const enteredGuests = parseInt(noOfGuestsField.value);
+                if (enteredGuests > maxGuests) {
+                    noOfGuestsField.value = maxGuests;
+                    alert("Maximum number of guests is 6");
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .form {
+            text-align: left;
+        }
+
+        .form-field {
+            display: flex; /* Align elements in a row */
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .form-field label {
+            flex-basis: 20%; /* Adjust the label width as needed */
+        }
+
+        .form-field select,
+        .form-field input[type="text"],
+        .form-field textarea {
+            flex: 1; /* Expand to fill the remaining space */
+        }
+
+        .textarea-container {
+            height: 80px; /* Specify the desired fixed height here */
+            overflow: hidden; /* Hide any content that overflows the fixed height */
+        }
+
+        .textarea-container textarea {
+            resize: none; /* Disable user resizing */
+            height: 100%; /* Fill the entire container height */
+        }
+    </style>
+</div>
+{% endblock %}
