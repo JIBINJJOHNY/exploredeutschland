@@ -28,8 +28,10 @@ urlpatterns = [
     path('account/settings/', views.account_settings, name='account_settings'),
     path('password_reset/', PasswordResetView.as_view(), name='password_reset'),
     path('search/', views.search_view, name='search'),
-
+    path('update-booking/<int:pk>/', views.BookingUpdateView.as_view(), name='update_booking'),
+    path('delete-booking/<int:booking_id>/', views.delete_booking, name='delete_booking'),
 ]
+
 
 
 

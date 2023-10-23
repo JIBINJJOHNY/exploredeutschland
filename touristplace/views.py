@@ -1,18 +1,19 @@
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect,get_object_or_404
-from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse,HttpResponse
 from .models import State,TouristPlace,TouristPlaceImage,Rev
 from .forms import RevForm
-from django.template.loader import render_to_string
 from django.views.generic import TemplateView
 from allauth.account.views import SignupView,LoginView
 from .forms import CustomSignupForm
 from django.db.models import Avg
 from .forms import SearchForm
+from django.views.generic.edit import UpdateView, DeleteView
+from package.models import Booking
+from django.urls import reverse_lazy
 
 def account_settings(request):
    
@@ -151,3 +152,22 @@ def search_view(request):
             'results': results,
         }
         return render(request, 'search_results.html', context)
+
+class BookingUpdateView(UpdateView):
+    model = Booking
+    fields = ['date', 'no_of_guests', 'package', 'status', 'payment_amount', 'payment_method', 'contact_email', 'contact_phone', 'special_requests']
+    template_name = 'update_booking.html'
+
+    def get_success_url(self):
+        return reverse_lazy('account_settings')  # Redirect to account settings after update
+
+def delete_booking(request, booking_id):
+    try:
+        booking = Booking.objects.get(id=booking_id)
+        booking.delete()
+    except Booking.DoesNotExist:
+        # Handle the case where the booking doesn't exist (optional)
+        pass
+
+    # After deleting, redirect back to the account settings page
+    return redirect('account_settings')

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block content %}
 <div class="container text-center">
     <h1 class="mb-4">Account Settings</h1>
@@ -8,8 +9,51 @@
     <div class="mb-4">
         <p>Email: {{ user.email }}</p>
     </div>
+    <h2 class="mb-4">Booked Packages</h2>
+    <ul>
+        {% for booking in user.booking_set.all %}
+        <li>
+            <strong>{{ booking.package }}</strong>
+            <p>Booking Date: {{ booking.date }}</p>
+            <p>Status: {{ booking.status }}</p>
+            <p>Payment Amount: ${{ booking.payment_amount }}</p>
+            <a href="{% url 'update_booking' booking.id %}" class="btn btn-primary">Update</a>
+            <a href="{% url 'delete_booking' booking.id %}" class="btn btn-danger">Delete</a>
+        </li>
+        {% empty %}
+        <li>No bookings available.</li>
+        {% endfor %}
+    </ul>
     <div>
         <a href="{% url 'password_reset' %}" class="btn btn-primary">Reset Password</a>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+    $(document).ready(function () {
+        $(".delete-booking").click(function () {
+            if (confirm("Are you sure you want to delete this booking?")) {
+                const bookingId = $(this).data("id");
+                const listItem = $(this).closest("li"); // Cache the list item
+
+                $.ajax({
+                    url: `/delete-booking/${bookingId}/`, // Use the correct URL pattern
+                    type: "DELETE",
+                    success: function (data) {
+                        if (data.message === "Booking deleted successfully") {
+                            // Remove the deleted booking from the UI
+                            listItem.remove();
+
+                            // Check if there are no more bookings, and display a message
+                            if ($("ul").find("li").length === 0) {
+                                $("ul").append("<li>No bookings available.</li>");
+                            }
+                        }
+                    },
+                });
+            }
+        });
+    });
+</script>
+
 {% endblock %}

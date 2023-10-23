@@ -1,76 +1,90 @@
-
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="content-container background-image">
-    <h1 class="text-center">{{ state.name }} Packages</h1>
-    <div class="package-list">
-      {% for package in packages %}
-        <div class="package-box row">
-          <div class="col-md-6 package-details">
-            <strong>{{ package }}</strong><br>
-            Package Type: {{ package.get_package_type_display }}<br>
-            Price:€{{ package.price }}/person<br>
-            Places Limit: {{ package.get_places_limit_display }}<br>
-            <h3>Tourist Places:</h3>
-            <ul>
-              {% for place in package.places.all %}
-                <li>{{ place.name }}</li>
-              {% endfor %}
-            </ul>
-          </div>
-          <div class="col-md-4 package-description">
-            {{ package.get_description|safe }}
-          </div>
-          <div class="col-md-2 book-now-button text-center align-self-center">
-            <a href="{% url 'booking_create' package_id=package.id %}" class="btn btn-primary">Book Now</a>
+<div class="content-container background-image">
+  <h1 class="text-center">{{ state.name }} Packages</h1>
+  <div class="package-list">
+    {% for package in packages %}
+    <div class="package-box row">
+      <div class="col-md-6 package-details">
+        <strong>{{ package }}</strong><br>
+        Package Type: {{ package.get_package_type_display }}<br>
+        Price:€{{ package.price }}/person<br>
+        Places Limit: {{ package.get_places_limit_display }}<br>
+        <h3>Tourist Places:</h3>
+        <ul>
+          {% for place in package.places.all %}
+          <li>{{ place.name }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-4 package-description">
+        {{ package.get_description|safe }}
+      </div>
+      <div class="col-md-2 book-now-button text-center align-self-center">
+        <a href="{% url 'booking_create' package_id=package.id %}" class="btn btn-primary">Book Now</a>
 
-          </div>
-        </div>
-      {% endfor %}
+      </div>
     </div>
+    {% endfor %}
   </div>
+</div>
 
-  <style>
-    .background-image {
-      background-image: url("{{ state.image.url }}");
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      display: flex;
-      flex-direction: column; /* Ensure content is centered vertically */
-      justify-content: center; /* Center horizontally */
-      align-items: center; /* Center vertically */
-      height: 100vh; /* Full viewport height */
-    }
-    .content-container {
-      background-color: rgba(255, 255, 255, 0.3); /* Add a semi-transparent white background */
-      padding: 20px; /* Add padding to create separation from the background image */
-    }
-    .package-box {
-      background-color: #f2f2f2; /* Set your desired background color here */
-      border: 1px solid #ccc; /* Add border or other styling as needed */
-      padding: 10px;
-      margin: 10px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .package-details {
-      flex: 1;
-    }
-    .package-description {
-      flex: 2;
-      padding: 10px;
-    }
-    h1 {
-      color: white;
-      text-align: center; /* Center the heading text */
-    }
-    /* Center align the "Book now" button vertically */
-    .book-now-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  </style>
+<style>
+  .background-image {
+    background-image: url("{{ state.image.url }}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    /* Ensure content is centered vertically */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    height: 120vh;
+    /* Full viewport height */
+  }
+
+  .content-container {
+    background-color: rgba(255, 255, 255, 0.3);
+    /* Add a semi-transparent white background */
+    padding: 20px;
+    /* Add padding to create separation from the background image */
+  }
+
+  .package-box {
+    background-color: #f2f2f2;
+    /* Set your desired background color here */
+    border: 1px solid #ccc;
+    /* Add border or other styling as needed */
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .package-details {
+    flex: 1;
+  }
+
+  .package-description {
+    flex: 2;
+    padding: 10px;
+  }
+
+  h1 {
+    color: white;
+    text-align: center;
+    /* Center the heading text */
+  }
+
+  /* Center align the "Book now" button vertically */
+  .book-now-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
 {% endblock %}

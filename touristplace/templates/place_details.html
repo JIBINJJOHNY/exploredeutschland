@@ -18,7 +18,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        height: 150vh;
     }
 
     .description-box {
@@ -36,13 +36,12 @@
 
     /* Additional styling for the image gallery */
     .image-gallery {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
+        position: relative;
         background: rgba(255, 255, 255, 0.7);
-        /* White with 70% opacity */
         border-radius: 10px;
-        padding: 10px;
+        top: 20px;
+        right: 20px;
+        padding: 20px;
         text-align: center;
     }
 
@@ -130,22 +129,21 @@
 
         </div>
     </div>
-</div>
 
-<!-- Image Gallery -->
-<!-- Add this code to your template -->
-<div class="image-gallery">
-    <h2>Image Gallery</h2>
-    <ul class="list-unstyled">
-        {% for image in place.images.all %}
-        <li class="list-inline-item">
-            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="thumbnail-image"
-                data-image-url="{% url 'get_large_image' image.id %}">
-        </li>
-        {% endfor %}
-    </ul>
-</div>
 
+    <!-- Image Gallery -->
+    <div class="image-gallery">
+        <h2>Image Gallery</h2>
+        <ul class="list-unstyled">
+            {% for image in place.images.all %}
+            <li class="list-inline-item">
+                <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="thumbnail-image"
+                    data-image-url="{% url 'get_large_image' image.id %}">
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 <!-- Bootstrap Modal for Large Images -->
 <div class="modal fade" id="largeImageModal" tabindex="-1" role="dialog" aria-labelledby="largeImageModalLabel"
     aria-hidden="true">
